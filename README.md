@@ -12,4 +12,9 @@ Retrieve all of the aeds, default is xml format that Google Map API prefers.
 ```
 
 Parameters:
+```
 [optional] ?format=json  // Returns the aed list in json.
+[optional] ?resultLimit=100 // Returns specified limit
+[optional] ?lat=38.89&lon=-77.02 // Returns aed near specific lat/lon combination 
+    
+```
