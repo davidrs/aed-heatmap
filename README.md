@@ -8,7 +8,7 @@ Get Aeds
 Retrieve all of the aeds, default is xml format that Google Map API prefers.
 
 ```
-	http://www.ottawasheart.com/server/getaeds.php
+	http://heartsparkapp.org/server/getaeds.php?format=json
 ```
 
 Parameters:
