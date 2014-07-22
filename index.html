@@ -27,6 +27,32 @@
 		}).addTo(map);
 
 
+		var app = {
+			init: function(){
+
+				this.getData().then(function(data){
+					console.log('data',data);
+				});
+			},
+
+			getData: function(){
+				var params = {
+					format: 'json',
+					minLat : 36,
+					maxLat : 38,
+					minLng : -77,
+					maxLng : -76
+				};
+				
+				return $.ajax('http://heartsparkapp.org/server/getaeds.php?',{
+					data: params
+				});
+			},
+		};
+
+		app.init();
+
+
 	</script>
 </body>
 </html>
