@@ -14,17 +14,22 @@
 
 	<script src="libs/Leaflet/leaflet.js"></script>
 	<script src="libs/jquery-2.0.3.min.js"></script>
+	<script src="libs/leaflet-heat.js"></script>
 	<script>
 
-		var map = L.map('map').setView([51.505, -0.09], 13);
-
-		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+		var baseLayer = L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
 			maxZoom: 18,
 			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
 				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
 				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 			id: 'examples.map-i86knfo3'
-		}).addTo(map);
+		});
+		
+		var heatLayer = L.heatLayer([], {radius: 40});
+		
+		var map = L.map('map', {
+			layers: [baseLayer, heatLayer]
+		}).setView([38.902631, -77.036570], 13);
 
 
 		var app = {
@@ -34,14 +39,12 @@
 				var self = this;
 				// TODO: get user position via html5 geolocation
 
-				var userPosition = {lat: 35, lng:-77};
+				var userPosition = {lat: 38.902631, lng:-77.036570};
 
 				this.getData(userPosition).then(function(data){
 					
-					console.log('data',data);
-					//TODO parse data and pass to heatmap.
-					self.formatData(data);
-
+					var latlngs = self.formatData(data);
+					heatLayer.setLatLngs(latlngs);
 
 				});
 			},
@@ -63,10 +66,15 @@
 
 					// If we want we could create Leaflet 
 					// new L.LatLng(aedArray[i].lat, aedArray[i].lng);
-					var point = [aedArray[i].lat, aedArray[i].lng]; 
+					var aed = aedArray[i];
+					var point = [parseFloat(aed.lat), parseFloat(aed.lng)]; 
 					this.heatmapPoints.push(point);
 				}
 				return this.heatmapPoints;
+			},
+			
+			setRadius: function(radius) {
+				heatLayer.setOptions({radius: radius});
 			},
 		};
 
