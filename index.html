@@ -47,6 +47,27 @@
 				});
 			},
 
+                        getLocation: function () {
+                                if (navigator.geolocation) {
+                                      navigator.geolocation.getCurrentPosition(success, error);
+                                } else {
+                                      alert("get a better browser!") // because alerts are annoying
+                                }
+
+                        },
+
+                        error: function () {
+                           // maybe use a div to inject some error message?
+                        },
+
+                        success: function() {
+                          var userPosition = { lat: 35, lng: -77 };
+                          this.getData(userPosition).then(function(data) {
+                              console.log('data', data);
+                              //TODO: more JavaScript Sorcery...
+                          });
+                        },
+
 			// userPosition can either be an obj with lat lng, or an obj with 
 			// bounds as minLat, maxLat, etc... 
 			getData: function(userPosition){
