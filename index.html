@@ -28,15 +28,18 @@
 
 
 		var app = {
-			init: function(){
+			heatmapPoints: [],
 
+			init: function(){
+				var self = this;
 				// TODO: get user position via html5 geolocation
-				var userPosition = {lat: 35, -77};
+				var userPosition = {lat: 35, lng:-77};
 
 				this.getData(userPosition).then(function(data){
 					
 					console.log('data',data);
 					//TODO parse data and pass to heatmap.
+					self.formatData(data);
 
 
 				});
@@ -51,6 +54,18 @@
 				return $.ajax('http://heartsparkapp.org/server/getaeds.php',{
 					data: params
 				});
+			},
+
+			formatData: function(aedArray){
+				this.heatmapPoints = [];
+				for(var  i =0; i< aedArray.length; i++){
+
+					// If we want we could create Leaflet 
+					// new L.LatLng(aedArray[i].lat, aedArray[i].lng);
+					var point = [aedArray[i].lat, aedArray[i].lng]; 
+					this.heatmapPoints.push(point);
+				}
+				return this.heatmapPoints;
 			},
 		};
 
