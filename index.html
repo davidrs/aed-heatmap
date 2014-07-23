@@ -30,21 +30,25 @@
 		var app = {
 			init: function(){
 
-				this.getData().then(function(data){
+				// TODO: get user position via html5 geolocation
+				var userPosition = {lat: 35, -77};
+
+				this.getData(userPosition).then(function(data){
+					
 					console.log('data',data);
+					//TODO parse data and pass to heatmap.
+
+
 				});
 			},
 
-			getData: function(){
-				var params = {
-					format: 'json',
-					minLat : 36,
-					maxLat : 38,
-					minLng : -77,
-					maxLng : -76
-				};
+			// userPosition can either be an obj with lat lng, or an obj with 
+			// bounds as minLat, maxLat, etc... 
+			getData: function(userPosition){
+				var params = userPosition;
+				params.format = 'json';
 				
-				return $.ajax('http://heartsparkapp.org/server/getaeds.php?',{
+				return $.ajax('http://heartsparkapp.org/server/getaeds.php',{
 					data: params
 				});
 			},
