@@ -16,7 +16,7 @@
 	<script src="libs/jquery-2.0.3.min.js"></script>
 	<script>
 
-		var map = L.map('map').setView([51.505, -0.09], 13);
+		var map = L.map('map').setView([38.89, -77.02], 13);
 
 		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
 			maxZoom: 18,
@@ -26,12 +26,17 @@
 			id: 'examples.map-i86knfo3'
 		}).addTo(map);
 
+                L.circle([51.508, -0.11], 500, {
+			color: 'red',
+			fillColor: '#f03',
+			fillOpacity: 0.5
+		}).addTo(map).bindPopup("I am a circle.");
 
 		var app = {
 			init: function(){
 
 				// TODO: get user position via html5 geolocation
-				var userPosition = {lat: 35, -77};
+				var userPosition = {lat: 35, lng: -77};
 
 				this.getData(userPosition).then(function(data){
 					
@@ -41,6 +46,27 @@
 
 				});
 			},
+
+                        getLocation: function () {
+                                if (navigator.geolocation) {
+                                      navigator.geolocation.getCurrentPosition(success, error);
+                                } else {
+                                      alert("get a better browser!") // because alerts are annoying
+                                }
+
+                        },
+
+                        error: function () {
+                           // maybe use a div to inject some error message?
+                        },
+
+                        success: function() {
+                          var userPosition = { lat: 35, lng: -77 };
+                          this.getData(userPosition).then(function(data) {
+                              console.log('data', data);
+                              //TODO: more JavaScript Sorcery...
+                          });
+                        },
 
 			// userPosition can either be an obj with lat lng, or an obj with 
 			// bounds as minLat, maxLat, etc... 
